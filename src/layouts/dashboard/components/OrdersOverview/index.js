@@ -29,7 +29,7 @@ function OrdersOverview() {
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
         <MDTypography variant="h6" fontWeight="medium">
-          Orders overview
+          Popular destinations
         </MDTypography>
         <MDBox mt={0} mb={2}>
           <MDTypography variant="button" color="text" fontWeight="regular">
@@ -44,7 +44,8 @@ function OrdersOverview() {
           </MDTypography>
         </MDBox>
       </MDBox>
-      <MDBox p={2}>
+      {/* change here for popular destinations statistics  - Din*/}
+      <MDBox p={2}> 
         <TimelineItem
           color="success"
           icon="notifications"

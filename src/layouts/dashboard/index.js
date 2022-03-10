@@ -38,6 +38,38 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
 
+  let api = "http://localhost:58913/api/Users/" //change to ruppin later.. also make a new publish
+  fetch(api, {
+    method: 'GET',
+    headers: new Headers({
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8'
+      })
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(
+        (result) => { 
+          console.log(result)
+          let dt = new Date()
+          dt.setTime(dt.getTime() - 24*60*60*1000)
+          let newToday = 0;
+          result.forEach(user => {
+            if(user.Dt != ""){
+              let userDt = new Date(user.Dt)
+              if(userDt > dt)
+                newToday++;
+            }
+          })
+          console.log(newToday)
+          }
+        )
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+        throw error;
+      });
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -48,7 +80,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon="person_add"
-                title="Popular destinations"
+                title="New Users"
                 count="add the num"
                 percentage={{
                   color: "success",
@@ -107,6 +139,11 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
+              {/* change here for charts */}
+              {/* 
+                {labels: ["M", "T", "W", "T", "F", "S", "S"],
+                datasets: { label: "Sales", data: [50, 20, 10, 22, 50, 10, 40] },}
+             */}
                 <ReportsBarChart
                   color="info"
                   title="Trips are planned by day"
