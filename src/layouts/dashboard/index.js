@@ -46,14 +46,14 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
+                color="primary"
+                icon="person_add"
+                title="Popular destinations"
+                count="add the num"
                 percentage={{
                   color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  amount: "",
+                  label: "in the last 24 hours",
                 }}
               />
             </MDBox>
@@ -61,9 +61,9 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                icon="save"
+                title="Trips saved today"
+                count="add the num"
                 percentage={{
                   color: "success",
                   amount: "+3%",
@@ -75,10 +75,10 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
+                color="dark"
+                icon="map"
+                title="planned trips for today"
+                count="add the num"
                 percentage={{
                   color: "success",
                   amount: "+1%",
@@ -90,10 +90,10 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
+                color="success"
+                icon="chat"
+                title="The most popular chat"
+                count="add the name"
                 percentage={{
                   color: "success",
                   amount: "",
@@ -109,9 +109,8 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsBarChart
                   color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
+                  title="Trips are planned by day"
+                  date="need to complite"
                   chart={reportsBarChartData}
                 />
               </MDBox>
@@ -120,12 +119,7 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
+                  title="Trips are planned by month"
                   date="updated 4 min ago"
                   chart={sales}
                 />
@@ -135,8 +129,7 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
+                  title="Trips are planned by houre"
                   date="just updated"
                   chart={tasks}
                 />
