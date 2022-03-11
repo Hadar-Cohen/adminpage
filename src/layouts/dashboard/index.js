@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -38,9 +38,13 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
   const [newUsers, setNewUsers] = useState(0);
+  const [newTrips, setNewTrips] = useState(0);
+  const [newTripsForToday, setNewTripsForToday] = useState(0);
+  const [newPopularChat, setNewPopularChat] = useState(0);
+const getAllUser=()=>{
   let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
   fetch(api, {
-    method: 'GET',
+    method: "GET",
     headers: new Headers({
         'Content-type': 'application/json; charset=UTF-8',
         'Accept': 'application/json; charset=UTF-8'
@@ -77,6 +81,115 @@ const Dashboard = () => {
       console.log('There has been a problem with your fetch operation: ' + error.message);
         throw error;
       });
+}
+////////////////////////////////////////////////////////////////////////////////////////
+const tripFromToday=()=>{
+  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/RouteData" //change to ruppin later.. also make a new publish
+  fetch(api, {
+    method: "GET",
+    headers: new Headers({
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8'
+      })
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(
+        (result) => { 
+          console.log(result)
+          let dt = new Date()
+          let dtt = new Date()
+          dt.setTime(dt.getTime() - 24*60*60*1000)
+          let newToday = 0;
+          let forToday = 0;
+          result.forEach(route => {
+            if(route.addedDate != ""){
+              let routeDt = new Date(route.addedDate)
+              if(routeDt > dt)
+                newToday++;
+            }
+            let routeDt = new Date(route.date)
+            if((routeDt.getDate()==dtt.getDate())&&((routeDt.getMonth()==dtt.getMonth())&&(routeDt.getFullYear()==dtt.getFullYear()))){
+              forToday++
+            }
+          })
+          setNewTrips(newToday);
+          }
+        )
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+        throw error;
+      });
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+const plannedTripsForToday=()=>{
+  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/RouteData" //change to ruppin later.. also make a new publish
+  fetch(api, {
+    method: "GET",
+    headers: new Headers({
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8'
+      })
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(
+        (result) => { 
+          console.log(result)
+          let dt = new Date()
+          dt.setTime(dt.getTime() - 24*60*60*1000)
+          let newToday = 0;
+          result.Users.forEach(user => {
+            // if(user.Dt != ""){
+            //   let userDt = new Date(user.Dt)
+            //   if(userDt > dt)
+            //     newToday++;
+            // }
+          })
+          setNewTripsForToday(newTripsForToday);
+          }
+        )
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+        throw error;
+      });
+}
+////////////////////////////////////////////////////////////////////////////////////
+const mostPopularChat=()=>{
+  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
+  fetch(api, {
+    method: "GET",
+    headers: new Headers({
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8'
+      })
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(
+        (result) => { 
+          console.log(result)
+          let dt = new Date()
+          dt.setTime(dt.getTime() - 24*60*60*1000)
+          let newToday = 0;
+          result.Users.forEach(user => {
+            // if(user.Dt != ""){
+            //   let userDt = new Date(user.Dt)
+            //   if(userDt > dt)
+            //     newToday++;
+            // }
+          })
+          setNewPopularChat(newPopularChat);
+          }
+        )
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+        throw error;
+      });
+}
 
   return (
     <DashboardLayout>
@@ -103,7 +216,7 @@ const Dashboard = () => {
               <ComplexStatisticsCard
                 icon="save"
                 title="Trips saved today"
-                count="add the num"
+                count={newTrips}
                 percentage={{
                   color: "success",
                   amount: "+3%",
@@ -118,7 +231,7 @@ const Dashboard = () => {
                 color="dark"
                 icon="map"
                 title="planned trips for today"
-                count="add the num"
+                count={newTripsForToday}
                 percentage={{
                   color: "success",
                   amount: "+1%",
