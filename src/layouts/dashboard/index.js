@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+import React, {useState, useEffect} from 'react';
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -35,9 +35,9 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
-function Dashboard() {
+const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
-
+  const [newUsers, setNewUsers] = useState(0);
   let api = "http://localhost:58913/api/Users/" //change to ruppin later.. also make a new publish
   fetch(api, {
     method: 'GET',
@@ -63,6 +63,7 @@ function Dashboard() {
             }
           })
           console.log(newToday)
+          setNewUsers(newToday);
           }
         )
     .catch(function(error) {
@@ -81,7 +82,7 @@ function Dashboard() {
                 color="primary"
                 icon="person_add"
                 title="New Users"
-                count="add the num"
+                count={newUsers}
                 percentage={{
                   color: "success",
                   amount: "",
