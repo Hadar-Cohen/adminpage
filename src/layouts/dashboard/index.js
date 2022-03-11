@@ -56,15 +56,15 @@ const Dashboard = () => {
           dt.setTime(dt.getTime() - 24*60*60*1000)
           let newToday = 0;
           result.Users.forEach(user => {
-            if(user.Dt != ""){
-              let userDt = new Date(user.Dt)
+            if(user.AddedDate != ""){
+              let userDt = new Date(user.AddedDate)
               if(userDt > dt)
                 newToday++;
             }
           })
           result.GoogleUsers.forEach(user => {
-            if(user.Dt != ""){
-              let userDt = new Date(user.Dt)
+            if(user.AddedDate != ""){
+              let userDt = new Date(user.AddedDate)
               if(userDt > dt)
                 newToday++;
             }
