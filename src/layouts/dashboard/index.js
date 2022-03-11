@@ -41,49 +41,55 @@ const Dashboard = () => {
   const [newTrips, setNewTrips] = useState(0);
   const [newTripsForToday, setNewTripsForToday] = useState(0);
   const [newPopularChat, setNewPopularChat] = useState(0);
-const getAllUser=()=>{
-  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
-  fetch(api, {
-    method: "GET",
-    headers: new Headers({
-        'Content-type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json; charset=UTF-8'
+
+  useEffect(() => {
+    getAllUser();
+    getTrips();
+  })
+
+  const getAllUser=()=>{
+    let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
+    fetch(api, {
+      method: "GET",
+      headers: new Headers({
+          'Content-type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8'
+        })
       })
-    })
-    .then(res => {
-        return res.json()
-    })
-    .then(
-        (result) => { 
-          console.log(result)
-          let dt = new Date()
-          dt.setTime(dt.getTime() - 24*60*60*1000)
-          let newToday = 0;
-          result.Users.forEach(user => {
-            if(user.AddedDate != ""){
-              let userDt = new Date(user.AddedDate)
-              if(userDt > dt)
-                newToday++;
+      .then(res => {
+          return res.json()
+      })
+      .then(
+          (result) => { 
+            console.log(result)
+            let dt = new Date()
+            dt.setTime(dt.getTime() - 24*60*60*1000)
+            let newToday = 0;
+            result.Users.forEach(user => {
+              if(user.AddedDate != ""){
+                let userDt = new Date(user.AddedDate)
+                if(userDt > dt)
+                  newToday++;
+              }
+            })
+            result.GoogleUsers.forEach(user => {
+              if(user.AddedDate != ""){
+                let userDt = new Date(user.AddedDate)
+                if(userDt > dt)
+                  newToday++;
+              }
+            })
+            console.log(newToday)
+            setNewUsers(newToday);
             }
-          })
-          result.GoogleUsers.forEach(user => {
-            if(user.AddedDate != ""){
-              let userDt = new Date(user.AddedDate)
-              if(userDt > dt)
-                newToday++;
-            }
-          })
-          console.log(newToday)
-          setNewUsers(newToday);
-          }
-        )
-    .catch(function(error) {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
-        throw error;
-      });
-}
+          )
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+          throw error;
+        });
+    }
 ////////////////////////////////////////////////////////////////////////////////////////
-const tripFromToday=()=>{
+const getTrips=()=>{
   let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/RouteData" //change to ruppin later.. also make a new publish
   fetch(api, {
     method: "GET",
@@ -115,6 +121,7 @@ const tripFromToday=()=>{
             }
           })
           setNewTrips(newToday);
+          setNewTripsForToday(forToday);
           }
         )
     .catch(function(error) {
