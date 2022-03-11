@@ -38,7 +38,7 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
   const [newUsers, setNewUsers] = useState(0);
-  let api = "http://localhost:58913/api/Users/" //change to ruppin later.. also make a new publish
+  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
   fetch(api, {
     method: 'GET',
     headers: new Headers({
