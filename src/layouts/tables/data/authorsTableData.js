@@ -29,10 +29,10 @@ import team4 from "assets/images/team-4.jpg";
 import React, {useState, useEffect} from 'react';
 
 export default function data() {
-  const [allUsers, setAllUsers] = useState([])
+  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    getAllUser()
+    getUsersPic()
   }, [])
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -54,8 +54,28 @@ export default function data() {
       <MDTypography variant="caption">{description}</MDTypography>
     </MDBox>
   );
-  const getAllUser=()=>{
-    let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
+  const getUsersPic = () => {
+    //let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/UserPic" 
+    let api = "http://localhost:58913/api/UserPic/";
+    fetch(api, {
+      method: "GET",
+      headers: new Headers({
+          'Content-type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8'
+        })
+      })
+      .then(res => {
+          return res.json()
+      })
+      .then(
+          (result) => {
+            console.log(result)
+            getAllUser(result)
+
+          })
+  }
+  const getAllUser=(pics)=>{
+    let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users"
     fetch(api, {
       method: "GET",
       headers: new Headers({
@@ -68,11 +88,15 @@ export default function data() {
       })
       .then(
           (result) => { 
-            console.log(result)
+            console.log(pics)
             let usersArr=[];
             result.Users.forEach((User)=>{
+              let pic = pics[pics.findIndex(element => element.id == User.Id)]
+              try{pic = pic.url}
+              catch{pic = ""}
+              console.log(pic)
                 usersArr.push({
-                  author: <Author image={''} name={`${User.FirstName} ${User.LastName}`} email={User.Email} />,
+                  author: <Author image={pic} name={`${User.FirstName} ${User.LastName}`} email={User.Email} />,
                   status: (
                     <MDBox ml={-1}>
                       <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
@@ -90,14 +114,14 @@ export default function data() {
                   ),
                 },)
         })
-        //     result.GoogleUsers.forEach((User,index)=>{
-        //         usersArr.push({
-        //             firstName: User.FirstName,
-        //             lastName: User.LastName,
-        //             email: User.Email,
-        //             date: '2011/04/25',
-        //     })
-        // })
+            result.GoogleUsers.forEach((User,index)=>{
+                usersArr.push({
+                    firstName: User.FirstName,
+                    lastName: User.LastName,
+                    email: User.Email,
+                    date: '2011/04/25',
+            })
+        })
         console.log(usersArr)
         setAllUsers(usersArr);
     }
