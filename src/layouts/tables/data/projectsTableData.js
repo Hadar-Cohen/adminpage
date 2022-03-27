@@ -60,6 +60,25 @@ export default function data() {
       </MDBox>
     </MDBox>
   );
+  const changeDay=(tripDay)=>{
+    switch(tripDay){
+      case 0:
+        return "Sunday";
+      case 1:
+        return "Monday";
+      case 2:
+        return "Tuesday";
+      case 3:
+        return "Wednesday";
+      case 4:
+        return "Thursday";
+      case 5:
+        return "Friday";
+      case 6:
+        return "Saturday";
+    }
+
+  }
 
   //////////////////////////////////////////////////////////////////////
   const getAllTrips=()=>{
@@ -80,6 +99,7 @@ export default function data() {
             let tripsArr=[];
             result.forEach((Trip)=>{
              Trip=Trip.routeData;
+             Trip.Day=changeDay(Trip.Day);
              console.log(Trip)
               tripsArr.push({
                 lineNumber: <Project image={LogoAsana} name={Trip.LineNumber} />,
@@ -148,17 +168,17 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "lineNumber", accessor: "lineNumber", width: "30%", align: "left" },
+      { Header: "line_Number", accessor: "lineNumber", width: "30%", align: "left" },
       { Header: "origin", accessor: "origin", align: "left" },
       { Header: "destination", accessor: "destination", align: "left" },
       { Header: "day", accessor: "day", align: "left" },
       { Header: "hour", accessor: "hour", align: "center" },
-      { Header: "arrivalTime", accessor: "arrivalTime", align: "center" },
-      { Header: "departureTime", accessor: "departureTime", align: "center" },
-      { Header: "numOfBuses", accessor: "numOfBuses", align: "left" },
+      { Header: "arrival_Time", accessor: "arrivalTime", align: "center" },
+      { Header: "departure_Time", accessor: "departureTime", align: "center" },
+      { Header: "num_Of_Buses", accessor: "numOfBuses", align: "left" },
       { Header: "stops", accessor: "stops", align: "left" },
-      { Header: "routeDuration", accessor: "routeDuration", align: "center" },
-      { Header: "routeDistance", accessor: "routeDistance", align: "center" },
+      { Header: "route_Duration", accessor: "routeDuration", align: "center" },
+      { Header: "route_Distance", accessor: "routeDistance", align: "center" },
       { Header: "rain", accessor: "rain", align: "center" },
     ],
 
