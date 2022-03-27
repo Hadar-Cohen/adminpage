@@ -27,7 +27,6 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import React, {useState, useEffect} from "react";
 
-import React, {useState, useEffect} from 'react';
 
 export default function data() {
   const [allUsers, setAllUsers] = useState([]);
@@ -35,6 +34,7 @@ export default function data() {
   useEffect(() => {
     getUsersPic()
   }, [])
+  
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -56,8 +56,8 @@ export default function data() {
     </MDBox>
   );
   const getUsersPic = () => {
-    //let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/UserPic" 
-    let api = "http://localhost:58913/api/UserPic/";
+    let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/UserPic" 
+    // let api = "http://localhost:58913/api/UserPic/";
     fetch(api, {
       method: "GET",
       headers: new Headers({

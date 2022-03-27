@@ -23,6 +23,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
 import MDProgress from "components/MDProgress";
+import React, {useState, useEffect} from 'react';
+
 
 // Images
 import LogoAsana from "assets/images/small-logos/logo-asana.svg";
@@ -33,6 +35,12 @@ import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import logoInvesion from "assets/images/small-logos/logo-invision.svg";
 
 export default function data() {
+  const [allTrips, setAllTrips] = useState([])
+
+  useEffect(() => {
+    getAllTrips()
+  }, [])
+
   const Project = ({ image, name }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" variant="rounded" />
@@ -53,132 +61,107 @@ export default function data() {
     </MDBox>
   );
 
+  //////////////////////////////////////////////////////////////////////
+  const getAllTrips=()=>{
+    let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/RouteData" //change to ruppin later.. also make a new publish
+    fetch(api, {
+      method: "GET",
+      headers: new Headers({
+          'Content-type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8'
+        })
+      })
+      .then(res => {
+          return res.json()
+      })
+      .then(
+          (result) => { 
+            console.log(result)
+            let tripsArr=[];
+            result.forEach((Trip)=>{
+             Trip=Trip.routeData;
+             console.log(Trip)
+              tripsArr.push({
+                lineNumber: <Project image={LogoAsana} name={Trip.LineNumber} />,
+                origin: (
+                  <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+                    {Trip.Origin}
+                    </MDTypography>
+                ),
+                destination: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.Destination}
+                  </MDTypography>
+                ),
+                day: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.Day}
+                  </MDTypography>
+                ), hour: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.Hour}
+                  </MDTypography>
+                ), arrivalTime: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.ArrivalTime}
+                  </MDTypography>
+                ), departureTime: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.DepartureTime}
+                  </MDTypography>
+                ), numOfBuses: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.NumOfBuses}
+                  </MDTypography>
+                ), stops: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.Stops}
+                  </MDTypography>
+                ), routeDuration: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.RouteDuration}
+                  </MDTypography>
+                ), routeDistance: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.RouteDistance}
+                  </MDTypography>
+                ), rain: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {Trip.Rain}
+                  </MDTypography>
+                ),
+                
+                },)
+        })
+       
+        console.log(tripsArr)
+        setAllTrips(tripsArr);
+    }
+    )
+      .catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+          throw error;
+        });
+    }
+///////////////////////////////////////////////////////////////////
+
+
   return {
     columns: [
-      { Header: "project", accessor: "project", width: "30%", align: "left" },
-      { Header: "budget", accessor: "budget", align: "left" },
-      { Header: "budget", accessor: "budgdet", align: "left" },
-      { Header: "bdudget", accessor: "budget", align: "left" },
-      { Header: "status", accessor: "status", align: "center" },
-      { Header: "completion", accessor: "completion", align: "center" },
-      { Header: "action", accessor: "action", align: "center" },
+      { Header: "lineNumber", accessor: "lineNumber", width: "30%", align: "left" },
+      { Header: "origin", accessor: "origin", align: "left" },
+      { Header: "destination", accessor: "destination", align: "left" },
+      { Header: "day", accessor: "day", align: "left" },
+      { Header: "hour", accessor: "hour", align: "center" },
+      { Header: "arrivalTime", accessor: "arrivalTime", align: "center" },
+      { Header: "departureTime", accessor: "departureTime", align: "center" },
+      { Header: "numOfBuses", accessor: "numOfBuses", align: "left" },
+      { Header: "stops", accessor: "stops", align: "left" },
+      { Header: "routeDuration", accessor: "routeDuration", align: "center" },
+      { Header: "routeDistance", accessor: "routeDistance", align: "center" },
+      { Header: "rain", accessor: "rain", align: "center" },
     ],
 
-    rows: [
-      {
-        project: <Project image={LogoAsana} name="Asana" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $2,500
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            working
-          </MDTypography>
-        ),
-        completion: <Progress color="info" value={60} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoGithub} name="Github" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $5,000
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            done
-          </MDTypography>
-        ),
-        completion: <Progress color="success" value={100} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoAtlassian} name="Atlassian" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $3,400
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            canceled
-          </MDTypography>
-        ),
-        completion: <Progress color="error" value={30} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoSpotify} name="Spotify" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            working
-          </MDTypography>
-        ),
-        completion: <Progress color="info" value={80} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoSlack} name="Slack" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $1,000
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            canceled
-          </MDTypography>
-        ),
-        completion: <Progress color="error" value={0} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoInvesion} name="Invesion" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $2,300
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            done
-          </MDTypography>
-        ),
-        completion: <Progress color="success" value={100} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-    ],
+    rows:allTrips 
   };
 }
