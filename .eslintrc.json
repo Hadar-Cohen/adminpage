@@ -16,7 +16,7 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "auto"
+        "singleQuote": false
       }
     ],
     "default-param-last": "off",
