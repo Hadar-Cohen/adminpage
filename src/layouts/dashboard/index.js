@@ -34,6 +34,23 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue, set, remove, push} from "firebase/database";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDvDTL7yUQocA1JXW90LtKibG_uRm9z-E4",
+  authDomain: "final-project-din-and-hadar.firebaseapp.com",
+  databaseURL: "https://final-project-din-and-hadar-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "final-project-din-and-hadar",
+  storageBucket: "final-project-din-and-hadar.appspot.com",
+  messagingSenderId: "490950571924",
+  appId: "1:490950571924:web:16a1d3b0896e4b41cfc181",
+  measurementId: "G-4YV91X5FDZ"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
@@ -41,7 +58,7 @@ const Dashboard = () => {
   const [allTrips, setAllTrips] = useState(0);
   const [newTrips, setNewTrips] = useState(0);
   const [newTripsForToday, setNewTripsForToday] = useState(0);
-  const [newPopularChat, setNewPopularChat] = useState(0);
+  const [popularChat, setPopularChat] = useState({chat: "None", count:0});
   const [accordingDayChart, setAccordingDayChart] = useState({
     labels: ["Sun", "M", "T", "W", "T", "F", "Sat"],
     datasets: { label: "Routes", data: [0,0,0,0,0,0,0] }
@@ -55,11 +72,10 @@ const Dashboard = () => {
     datasets: { label: "Routes", data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
   });
 
-
-
   useEffect(() => {
     getAllUser();
     getTrips();
+    getPopularChat();
   }, [])
 
   const getAllUser=()=>{
@@ -173,40 +189,18 @@ const getTrips=()=>{
       });
 }
 ////////////////////////////////////////////////////////////////////////////////////
-const mostPopularChat=()=>{
-  let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users" //change to ruppin later.. also make a new publish
-  fetch(api, {
-    method: "GET",
-    headers: new Headers({
-        'Content-type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json; charset=UTF-8'
-      })
-    })
-    .then(res => {
-        return res.json()
-    })
-    .then(
-        (result) => { 
-          console.log(result)
-          let dt = new Date()
-          dt.setTime(dt.getTime() - 24*60*60*1000)
-          let newToday = 0;
-          result.Users.forEach(user => {
-            // if(user.Dt != ""){
-            //   let userDt = new Date(user.Dt)
-            //   if(userDt > dt)
-            //     newToday++;
-            // }
-          })
-          setNewPopularChat(newPopularChat);
-          }
-        )
-    .catch(function(error) {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
-        throw error;
-      });
+const getPopularChat=()=>{
+  const db = ref(database, `Chats/`);
+  onValue(db, (snapshot) => {
+    let popular = {chat: "None", count:0}
+    const data = snapshot.val();
+    for (let d in data){
+      if(data[d].length > popular.count)
+      popular = {chat: d, count: data[d].length}
+    }
+    setPopularChat(popular);
+  })
 }
-
 
   return (
     <DashboardLayout>
@@ -263,11 +257,11 @@ const mostPopularChat=()=>{
                 color="success"
                 icon="chat"
                 title="The most popular chat"
-                count="add the name"
+                count={"Line " + popularChat.chat}
                 percentage={{
                   color: "success",
-                  amount: "",
-                  label: "Just updated",
+                  amount: popularChat.count,
+                  label: " Messages",
                 }}
               />
             </MDBox>

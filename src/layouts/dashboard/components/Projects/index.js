@@ -32,32 +32,11 @@ import DataTable from "examples/Tables/DataTable";
 import data from "layouts/dashboard/components/Projects/data";
 
 function Projects() {
-  const { columns, rows } = data();
+  const tableData = data();
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
-
-  const renderMenu = (
-    <Menu
-      id="simple-menu"
-      anchorEl={menu}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={Boolean(menu)}
-      onClose={closeMenu}
-    >
-      <MenuItem onClick={closeMenu}>Action</MenuItem>
-      <MenuItem onClick={closeMenu}>Another action</MenuItem>
-      <MenuItem onClick={closeMenu}>Something else</MenuItem>
-    </Menu>
-  );
 
   return (
     <>
@@ -68,11 +47,10 @@ function Projects() {
             Block User
           </MDTypography>
         </MDBox>
-        {renderMenu}
       </MDBox>
       <MDBox>
         <DataTable
-          table={{ columns, rows }}
+          table={{ columns: tableData[0].columns, rows:tableData[0].rows }}
           showTotalEntries={false}
           isSorted={false}
           noEndBorder
@@ -80,7 +58,7 @@ function Projects() {
         />
       </MDBox>
     </Card>
-
+      <br/>
       <Card>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <MDBox>
@@ -88,11 +66,10 @@ function Projects() {
             Blocked User
           </MDTypography>
         </MDBox>
-        {renderMenu}
       </MDBox>
       <MDBox>
         <DataTable
-          table={{ columns, rows }}
+          table={{ columns: tableData[1].columns, rows:tableData[1].rows }}
           showTotalEntries={false}
           isSorted={false}
           noEndBorder
