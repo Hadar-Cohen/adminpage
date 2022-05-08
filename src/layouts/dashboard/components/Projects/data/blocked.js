@@ -1,47 +1,14 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Tooltip from "@mui/material/Tooltip";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
 import MDProgress from "components/MDProgress";
 
-// Images
-import logoXD from "assets/images/small-logos/logo-xd.svg";
-import logoAtlassian from "assets/images/small-logos/logo-atlassian.svg";
-import logoSlack from "assets/images/small-logos/logo-slack.svg";
-import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
-import logoJira from "assets/images/small-logos/logo-jira.svg";
-import logoInvesion from "assets/images/small-logos/logo-invision.svg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, remove} from "firebase/database";
 import React, {useState, useEffect } from 'react';
-import { CButton } from '@coreui/react'
-// import '@coreui/coreui/dist/css/coreui.min.css';
 import MDButton from "components/MDButton";
-
-
-
 
 
 
@@ -75,7 +42,7 @@ export default function data() {
     getAllChats()
   }, [])
 
-  const blockUser=(id)=>{
+  const unblockUser=(id)=>{
     let api = "https://proj.ruppin.ac.il/bgroup54/test2/tar6/api/Users"
     fetch(api + '?id='+ id, {
       method: 'DELETE',
@@ -125,8 +92,8 @@ export default function data() {
             ),
             Block: (
               <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-                <MDButton variant="gradient" color="success" onClick={() => {blockUser(msg.id)}} fullWidth>
-                Block
+                <MDButton variant="gradient" color="error" onClick={() => {unblockUser(msg.id)}} fullWidth>
+                Unblock
                     </MDButton>
               </MDTypography>
             ),
@@ -146,7 +113,7 @@ export default function data() {
       { Header: "User Name", accessor: "UserName", align: "left" },
       { Header: "User Id", accessor: "UserId",  align: "left" },
       { Header: "Text", accessor: "Text", align: "center" },
-      { Header: "Block", accessor: "Block", align: "center" },
+      { Header: "Unblock", accessor: "Unblock", align: "center" },
     ],
     rows:allChats
 
