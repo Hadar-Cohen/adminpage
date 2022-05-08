@@ -102,7 +102,7 @@ export default function data() {
              Trip.Day=changeDay(Trip.Day);
              console.log(Trip)
               tripsArr.push({
-                lineNumber: <Project image={LogoAsana} name={Trip.LineNumber} />,
+                lineNumber: <Project name={Trip.LineNumber} />,
                 origin: (
                   <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
                     {Trip.Origin}
