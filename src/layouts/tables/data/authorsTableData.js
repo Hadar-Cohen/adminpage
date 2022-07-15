@@ -132,26 +132,7 @@ export default function data() {
           throw error;
         });
     }
-  const user = [
-    {
-      author: <Author image={team2} name="John Michael" email="john@creative-tim.com" />,
-      status: (
-        <MDBox ml={-1}>
-          <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
-        </MDBox>
-      ),
-      employed: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          23/04/18
-        </MDTypography>
-      ),
-      action: (
-        <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          Edit
-        </MDTypography>
-      ),
-    },
-  ]
+  
   return {
     columns: [
       { Header: "author", accessor: "author", width: "45%", align: "left" },
